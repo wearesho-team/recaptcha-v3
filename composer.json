@@ -3,7 +3,7 @@
   "description": "reCAPTCHA v3 integration",
   "type": "library",
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.1",
     "guzzlehttp/guzzle": "^6.3",
     "horat1us/environment-config": "^1.2"
   },
@@ -28,5 +28,16 @@
       "email": "reclamme@gmail.com"
     }
   ],
-  "minimum-stability": "stable"
+  "minimum-stability": "stable",
+  "config": {
+    "process-timeout": 1800,
+    "sort-packages": true,
+    "platform": {
+      "php": "7.1"
+    }
+  },
+  "scripts": {
+    "lint": "./vendor/bin/phpcs --standard=PSR2 ./src ./tests",
+    "test": "./vendor/bin/phpunit"
+  }
 }
