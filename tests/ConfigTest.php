@@ -16,13 +16,13 @@ class ConfigTest extends TestCase
     /** @var ReCaptcha\V3\Config */
     protected $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->config = new ReCaptcha\V3\Config(static::SECRET);
     }
 
-    public function testGetSecret()
+    public function testGetSecret(): void
     {
         $this->assertEquals(
             static::SECRET,
