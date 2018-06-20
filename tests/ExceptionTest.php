@@ -32,6 +32,7 @@ class ExceptionTest extends TestCase
                 ReCaptcha\V3\Exception::INVALID_INPUT_SECRET,
                 ReCaptcha\V3\Exception::MISSING_INPUT_SECRET,
                 ReCaptcha\V3\Exception::BAD_REQUEST,
+                'some-not-documented',
             ]
         );
         $this->exception = new ReCaptcha\V3\Exception($this->response);
@@ -40,7 +41,7 @@ class ExceptionTest extends TestCase
     public function testGetMessage(): void
     {
         $this->assertEquals(
-            'The response parameter is invalid or malformed, The response parameter is missing, The secret parameter is invalid or malformed, The secret parameter is missing, The request is invalid or malformed', // phpcs:ignore
+            'The response parameter is invalid or malformed, The response parameter is missing, The secret parameter is invalid or malformed, The secret parameter is missing, The request is invalid or malformed, some-not-documented', // phpcs:ignore
             $this->exception->getMessage()
         );
     }
