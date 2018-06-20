@@ -41,7 +41,6 @@ class ClientTest extends TestCase
         $this->client = new ReCaptcha\V3\Client($this->config, new GuzzleHttp\Client([
             'handler' => $stack,
         ]));
-
     }
 
     public function testSendingParams(): void
