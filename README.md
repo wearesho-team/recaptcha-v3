@@ -4,6 +4,8 @@
 
 Simple server check implementation for [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3)
 
+*Note: This is a Beta version of reCAPTCHA which is still undergoing final testing before its official release. The API, documentation, and policy are subject to change in the future.*
+
 ## Installation
 ```bash
 composer require wearesho-team/recaptcha-v3
