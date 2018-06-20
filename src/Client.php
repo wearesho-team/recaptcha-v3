@@ -81,7 +81,7 @@ class Client
         $jsonResponse = json_decode($responseBody, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException(
+            throw new \Exception(
                 'Error decoding Google response: ' . json_last_error_msg(),
                 json_last_error()
             );
@@ -97,7 +97,7 @@ class Client
 
         foreach ($requiredAttributes as $requiredAttribute) {
             if (!array_key_exists($requiredAttribute, $jsonResponse)) {
-                throw new \Exception('Missing required resposnse attribute: ' . $requiredAttribute);
+                throw new \Exception('Missing required response attribute: ' . $requiredAttribute);
             }
         }
 
