@@ -1,6 +1,9 @@
 # reCAPTCHA v3 PHP Server Library
+[![Latest Stable Version](https://poser.pugx.org/wearesho-team/recaptcha-v3/v/stable)](https://packagist.org/packages/wearesho-team/recaptcha-v3)
+[![Total Downloads](https://poser.pugx.org/wearesho-team/recaptcha-v3/downloads)](https://packagist.org/packages/wearesho-team/recaptcha-v3)
 [![Build Status](https://travis-ci.org/wearesho-team/recaptcha-v3.svg?branch=master)](https://travis-ci.org/wearesho-team/recaptcha-v3)
 [![codecov](https://codecov.io/gh/wearesho-team/recaptcha-v3/branch/master/graph/badge.svg)](https://codecov.io/gh/wearesho-team/recaptcha-v3)
+[![License](https://poser.pugx.org/wearesho-team/recaptcha-v3/license)](https://packagist.org/packages/wearesho-team/recaptcha-v3)
 
 Simple server check implementation for [reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3)
 
