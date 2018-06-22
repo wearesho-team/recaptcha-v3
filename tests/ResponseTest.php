@@ -11,7 +11,6 @@ use Wearesho\ReCaptcha;
  */
 class ResponseTest extends TestCase
 {
-    const SUCCESS = true;
     const SCORE = 0.6;
     const ACTION = 'login';
     const TIMESTAMP = 190000;
@@ -25,22 +24,10 @@ class ResponseTest extends TestCase
     {
         parent::setUp();
         $this->response = new ReCaptcha\V3\Response(
-            static::SUCCESS,
             static::SCORE,
             static::ACTION,
             (new \DateTime())->setTimestamp(static::TIMESTAMP),
-            static::HOSTNAME,
-            [
-                static::ERROR_CODE,
-            ]
-        );
-    }
-
-    public function testIsSuccess(): void
-    {
-        $this->assertEquals(
-            static::SUCCESS,
-            $this->response->isSuccess()
+            static::HOSTNAME
         );
     }
 
@@ -74,12 +61,5 @@ class ResponseTest extends TestCase
             static::HOSTNAME,
             $this->response->getHostname()
         );
-    }
-
-    public function testGetErrors(): void
-    {
-        $this->assertEquals([
-            static::ERROR_CODE,
-        ], $this->response->getErrors());
     }
 }

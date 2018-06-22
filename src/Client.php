@@ -49,24 +49,19 @@ class Client
     /**
      * @param array $jsonResponse
      * @return Response
-     * @throws Exception
      */
     protected function createResponse(array $jsonResponse): Response
     {
-        $dateTime = \DateTime::createFromFormat(\DateTime::ATOM, $jsonResponse['challenge_ts']);
+        $dateTime = array_key_exists('challenge_ts', $jsonResponse)
+            ? \DateTime::createFromFormat(\DateTime::ATOM, $jsonResponse['challenge_ts'])
+            : null;
 
         $response = new Response(
-            $jsonResponse['success'],
             $jsonResponse['score'],
             $jsonResponse['action'],
             $dateTime,
-            $jsonResponse['hostname'],
-            $jsonResponse['error_codes'] ?? []
+            $jsonResponse['hostname']
         );
-
-        if (!$response->isSuccess()) {
-            throw new Exception($response);
-        }
 
         return $response;
     }
@@ -87,8 +82,15 @@ class Client
             );
         }
 
+        if (!array_key_exists('success', $jsonResponse)) {
+            throw new \Exception('Missing required response attribute: success');
+        }
+
+        if ($jsonResponse['success'] === false) {
+            throw new Exception($jsonResponse['error-codes'] ?? []);
+        }
+
         $requiredAttributes = [
-            'success',
             'score',
             'action',
             'challenge_ts',

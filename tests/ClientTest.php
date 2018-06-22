@@ -81,10 +81,6 @@ class ClientTest extends TestCase
 
         $response = $this->client->verify('response', '127.0.0.1');
         $this->assertEquals(
-            $success,
-            $response->isSuccess()
-        );
-        $this->assertEquals(
             $score,
             $response->getScore()
         );
@@ -117,11 +113,22 @@ class ClientTest extends TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage Missing required response attribute: score
      */
-    public function testMissingJsonFields()
+    public function testMissingJsonFields(): void
     {
         $this->mock->append(new GuzzleHttp\Psr7\Response(200, [], json_encode([
             'success' => true,
         ])));
+
+        $this->client->verify('response', '127.0.0.1');
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Missing required response attribute: success
+     */
+    public function testMissingSuccess(): void
+    {
+        $this->mock->append(new GuzzleHttp\Psr7\Response(200, [], '{}'));
 
         $this->client->verify('response', '127.0.0.1');
     }
@@ -139,9 +146,42 @@ class ClientTest extends TestCase
                 'action' => $action = 'test',
                 'challenge_ts' => $date = date('c'),
                 'hostname' => $hostname = 'wearesho.com',
-                'error_codes' => [
+                'error-codes' => [
                     ReCaptcha\V3\Exception::BAD_REQUEST,
                 ],
+            ]))
+        );
+
+        $this->client->verify('response', '127.0.0.1');
+    }
+
+    /**
+     * @expectedException \Wearesho\ReCaptcha\V3\Exception
+     * @expectedExceptionMessage timeout-or-duplicate
+     */
+    public function testErrorWithEmptyParams(): void
+    {
+        $this->mock->append(
+            new GuzzleHttp\Psr7\Response(200, [], json_encode([
+                'success' => false,
+                'error-codes' => [
+                    'timeout-or-duplicate'
+                ],
+            ]))
+        );
+
+        $this->client->verify('response', '127.0.0.1');
+    }
+
+    /**
+     * @expectedException \Wearesho\ReCaptcha\V3\Exception
+     * @expectedExceptionMessageRegExp /^$/
+     */
+    public function testErrorWithoutErrorCodes(): void
+    {
+        $this->mock->append(
+            new GuzzleHttp\Psr7\Response(200, [], json_encode([
+                'success' => false,
             ]))
         );
 

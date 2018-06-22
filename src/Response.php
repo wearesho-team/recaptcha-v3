@@ -8,9 +8,6 @@ namespace Wearesho\ReCaptcha\V3;
  */
 class Response
 {
-    /** @var bool */
-    protected $success;
-
     /** @var float */
     protected $score;
 
@@ -27,24 +24,15 @@ class Response
     protected $errors = [];
 
     public function __construct(
-        bool $success,
         float $score,
         string $action,
         \DateTime $dateTime,
-        string $hostname,
-        array $errors
+        string $hostname
     ) {
-        $this->success = $success;
         $this->score = $score;
         $this->action = $action;
         $this->dateTime = $dateTime;
         $this->hostname = $hostname;
-        $this->errors = $errors;
-    }
-
-    public function isSuccess(): bool
-    {
-        return $this->success;
     }
 
     public function getScore(): float
@@ -65,10 +53,5 @@ class Response
     public function getHostname(): string
     {
         return $this->hostname;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

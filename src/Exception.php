@@ -8,30 +8,25 @@ use Throwable;
  * Class Exception
  * @package Wearesho\ReCaptcha\V3
  */
-class Exception extends \Exception implements ExceptionInterface
+class Exception extends \Exception
 {
-    const MISSING_INPUT_SECRET = 'missing-input-secret';
-    const INVALID_INPUT_SECRET = 'invalid-input-secret';
-    const MISSING_INPUT_RESPONSE = 'missing-input-response';
-    const INVALID_INPUT_RESPONSE = 'invalid-input-response';
-    const BAD_REQUEST = 'bad-request';
+    public const MISSING_INPUT_SECRET = 'missing-input-secret';
+    public const INVALID_INPUT_SECRET = 'invalid-input-secret';
+    public const MISSING_INPUT_RESPONSE = 'missing-input-response';
+    public const INVALID_INPUT_RESPONSE = 'invalid-input-response';
+    public const BAD_REQUEST = 'bad-request';
 
-    /** @var Response */
-    protected $response;
+    /** @var array */
+    protected $errors;
 
-    public function __construct(Response $response, int $code = 0, Throwable $previous = null)
+    public function __construct(array $errors, int $code = 0, Throwable $previous = null)
     {
         $message = implode(
             ', ',
-            array_map([$this, 'getMessageByCode',], $response->getErrors())
+            array_map([$this, 'getMessageByCode',], $errors)
         );
         parent::__construct($message, $code, $previous);
-        $this->response = $response;
-    }
-
-    public function getResponse(): Response
-    {
-        return $this->response;
+        $this->errors = $errors;
     }
 
     public function getMessageByCode(string $code): string
@@ -49,5 +44,10 @@ class Exception extends \Exception implements ExceptionInterface
                 return 'The request is invalid or malformed';
         }
         return $code;
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }
