@@ -39,6 +39,11 @@ $response->getScore(); // score from 0 to 1
 
 ```
 
+### Environment
+Use [EnvironmentConfig](./src/EnvironmentConfig.php) to configure application using environment.
+Keys:
+ - **RECAPTCHA_SECRET** - secret, will be sent while verifying 
+
 ## Contributors
 - [Alexander <horat1us> Letnikow](mailto:reclamme@gmail.com)
 
