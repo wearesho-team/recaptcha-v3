@@ -18,18 +18,18 @@ class Client
     /** @var GuzzleHttp\ClientInterface */
     protected $client;
 
-    public function __construct(ConfigInterface $config = null, GuzzleHttp\ClientInterface $client = null)
+    public function __construct(ConfigInterface $config, GuzzleHttp\ClientInterface $client)
     {
-        $this->config = $config ?? new EnvironmentConfig();
-        $this->client = $client ?? new GuzzleHttp\Client();
+        $this->config = $config;
+        $this->client = $client;
     }
 
     /**
      * @param string $response
      * @param string|null $remoteIp
      * @return Response
-     * @throws \Exception
      * @throws Exception with Response
+     * @throws GuzzleHttp\Exception\GuzzleException
      */
     public function verify(string $response, string $remoteIp = null): Response
     {
@@ -69,21 +69,20 @@ class Client
     /**
      * @param string $responseBody
      * @return array
-     * @throws \Exception
      */
     protected function parseJson(string $responseBody): array
     {
         $jsonResponse = json_decode($responseBody, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception(
+            throw new \RuntimeException(
                 'Error decoding Google response: ' . json_last_error_msg(),
                 json_last_error()
             );
         }
 
         if (!array_key_exists('success', $jsonResponse)) {
-            throw new \Exception('Missing required response attribute: success');
+            throw new \RuntimeException('Missing required response attribute: success');
         }
 
         if ($jsonResponse['success'] === false) {
