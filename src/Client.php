@@ -18,10 +18,10 @@ class Client
     /** @var GuzzleHttp\ClientInterface */
     protected $client;
 
-    public function __construct(ConfigInterface $config = null, GuzzleHttp\ClientInterface $client = null)
+    public function __construct(ConfigInterface $config, GuzzleHttp\ClientInterface $client)
     {
-        $this->config = $config ?? new EnvironmentConfig();
-        $this->client = $client ?? new GuzzleHttp\Client();
+        $this->config = $config;
+        $this->client = $client;
     }
 
     /**
